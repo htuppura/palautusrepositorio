@@ -12,4 +12,4 @@ class Player:
         g = self.goals
         a = self.assists
         p = self.goals + self.assists
-        return f"{n} team {t} - {g} + {a} = {p}"
+        return f"{n:20}{t:4}{g} + {a} = {p}"
