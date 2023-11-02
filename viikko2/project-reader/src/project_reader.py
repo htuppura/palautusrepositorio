@@ -1,5 +1,6 @@
 from urllib import request
 from project import Project
+import toml
 
 
 class ProjectReader:
@@ -8,8 +9,12 @@ class ProjectReader:
 
     def get_project(self):
         # tiedoston merkkijonomuotoinen sisältö
-        content = request.urlopen(self._url).read().decode("utf-8")
-        print(content)
+        p = toml.loads(
+                request.urlopen(self._url).read().decode("utf-8")
+                        )["tool"]["poetry"]
 
-        # deserialisoi TOML-formaatissa oleva merkkijono ja muodosta Project-olio sen tietojen perusteella
-        return Project("Test name", "Test description", [], [])
+        # deserialisoi TOML-formaatissa oleva merkkijono ja muodosta
+        # Project-olio sen tietojen perusteella
+        return Project(p["name"], p["description"], p["license"],
+                p["authors"], p["dependencies"], 
+                p["group"]["dev"]["dependencies"])
